@@ -2,39 +2,38 @@ import { useForm } from "react-hook-form"; // LIBRERIA DE REACT
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const TOKEN = localStorage.getItem("token"); // variable global para mi componente para usar el TOKEN en distintas peticiones.
 const URL = import.meta.env.VITE_SERVER_URL;
 
 // traigo f getUsers como props desde Adminuser
-const UserForm = ({ getUsers, formValue  }) => {
+const UserForm = ({ getUsers, formValue, userId  }) => {
 	// handleSubmit to hold the input value *- setValue =>setear los valores al formulario
 	const { register, handleSubmit, setValue } = useForm();
 	const navigate = useNavigate();
-	const [userId, setUserId] = useState();
-
+	console.log(userId)
 	// -Obtener data del formulario y hacer un PUT o POST
 	async function submitedData(data) {
 		try {
+
+			console.log(data)
             const formData = new FormData() 
                
-        formData.append("name", data.name)
-		formData.append("email", data.email)
-		formData.append("password", data.password)
-		formData.append("age", data.age)
-		formData.append("location", data.location)
-		formData.append("image", data.image[0])
-
-
-
+			formData.append("name", data.name)
+			formData.append("email", data.email)
+			if(!userId) {
+				formData.append("password", data.password)
+			}
+			formData.append("age", data.age)
+			formData.append("location", data.location)
+			formData.append("image", data.image[0])
 
 
 			// -PUT: EDITAR usuario
 			if (userId) {
 				if (!TOKEN) return; // si NO HAY TOKEN cancelo
 				// metodo PUT ()Postman
-				const response = await axios.put(`${URL}/users/ ${userId}`, data, {
+				const response = await axios.put(`${URL}/users/${userId}`, formData, {
 					headers: { authorization: TOKEN },
 				});
 				Swal.fire({
@@ -46,12 +45,11 @@ const UserForm = ({ getUsers, formValue  }) => {
 				// if (setFormValueFn) {
 				// 	setFormValueFn(user);
 				// }
-				setUserId(null);
 				return; // para que mi codigo que sigue luego del if no se ejecute.
 			}
 
 			// -POST: CREAR usuario
-			const response = await axios.post(`${URL}/users`, data); // enviamos al back
+			const response = await axios.post(`${URL}/users`, formData); // enviamos al back
 			Swal.fire({
 				icon: "success",
 				title: "Usuario creado ",
@@ -92,7 +90,7 @@ const UserForm = ({ getUsers, formValue  }) => {
 	return (
 		<>
 			<section className="form-container">
-				<form id="user-form" onSubmit={handleSubmit(submitedData)}>
+				<form id="user-form" onSubmit={handleSubmit(submitedData)} >
 					<div className="input-wrapper">
 						<label htmlFor="name">Nombre Completo</label>
 						<input

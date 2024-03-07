@@ -8,13 +8,13 @@ const URL = import.meta.env.VITE_SERVER_URL;
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("currentUser"));
-	return savedUser || null;
+	  return savedUser || null;
   });
   const [admin, setAdmin] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("currentUser"));
     return savedUser?.role === "ADMIN_ROLE"
   });
-
+  console.log(admin)
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token") || null;
   });
@@ -25,7 +25,8 @@ export const UserProvider = ({ children }) => {
       const { token, user } = response.data;
       localStorage.setItem("token", token)
       localStorage.setItem("currentUser", JSON.stringify(user))
-      const isAdmin = user.role === "ADMIN_ROLE"
+      const isAdmin = user.role === "ADMIN_ROLE";
+
       setAdmin(isAdmin)
       setUser(user);
       setToken(token);

@@ -2,13 +2,16 @@ import { useNavigate, NavLink } from "react-router-dom";
 import logo from '../../assets/images/logos/GUITAR.png'
 import carrito from "../../assets/images/user-menu/carrito4.png" 
 import usuario from "../../assets/images/user-menu/usuario2.png"
+import { useUser } from "@/context/UserContext";
 
 
 
 
 export default function Header() {
-    const navigate=useNavigate()
-    const isAdmin=true;
+    const navigate=useNavigate();
+    const { admin } = useUser();
+    console.log(admin)
+    const isAdmin= admin;
     const currentUser=JSON.parse(localStorage.getItem('currentUser'));
     
    function logout(){
@@ -38,16 +41,16 @@ export default function Header() {
         <NavLink to="/contact"  className="nav-link">Contacto</NavLink>
         <NavLink to="/register" className="nav-link">Registro</NavLink>
 
-{isAdmin && ( 
-        <>
-        <NavLink to="/admin-product" className="nav-link">
-            Admin Product
-            </NavLink>
-        <NavLink to="/admin-user" className="nav-link">
-            Admin User
-            </NavLink>
-        </>
-)}
+        {isAdmin && ( 
+                <>
+                <NavLink to="/admin-product" className="nav-link">
+                    Admin Product
+                    </NavLink>
+                <NavLink to="/admin-user" className="nav-link">
+                    Admin User
+                    </NavLink>
+                </>
+        )}
         </ul>
     </nav>
    

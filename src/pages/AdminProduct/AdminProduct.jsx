@@ -35,6 +35,7 @@ export default function AdminProduct() {
 				formData.append(key,data[key]);
 			}
 
+			
 			// -PUT: EDITAR (actualizar )producto
 			if (productId) {
 				if (!TOKEN) return; // si NO HAY TOKEN cancelo
@@ -90,6 +91,7 @@ export default function AdminProduct() {
 				`${URL}/products?page=${page}&limit=${limit}`,
 			);
 			const products = response.data.products;
+			console.log(products)
 			const total = response.data.total; // 6
 			// redondeo hacia arriba
 			const buttonsQuantity = Math.ceil(total / limit); // 6/2=3 botones
@@ -175,6 +177,7 @@ export default function AdminProduct() {
 
 			// setear un estado que maneje las categorias RECIBIDAS DE BD
 			setCategories(categoriesDB);
+			console.log(categories)
 		} catch (error) {
 			console.log("No se pudieron obtener las categorias");
 		}
@@ -233,7 +236,7 @@ export default function AdminProduct() {
 							<div className="input-wrapper">
 								<label htmlFor="descripcion">Descripcion</label>
 								<textarea
-									{...register("descripcion")}
+									{...register("description")}
 									id="descripcion"
 									required
 								></textarea>
@@ -251,7 +254,7 @@ export default function AdminProduct() {
 								<label htmlFor="fecha">Fecha</label>
 								<input
 									type="date"
-									{...register("fecha")}
+									{ ...register("createdAt") }
 									id="fecha"
 									min=" 1930-01-01"
 								/>
@@ -332,9 +335,9 @@ export default function AdminProduct() {
 													}
 												/>
 											</td>
-											<td> {product.producto}</td>
-											<td> {product.descripcion} </td>
-											<td> {product.precio}</td>
+											<td> {product.title}</td>
+											<td> {product.description} </td>
+											<td> {product.price}</td>
 											<td> {formatDate(product.fecha)}</td>
 											{
 												<td>
