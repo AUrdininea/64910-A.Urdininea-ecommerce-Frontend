@@ -7,7 +7,7 @@ const TOKEN = localStorage.getItem("token"); // variable global para mi componen
 const URL = import.meta.env.VITE_SERVER_URL;
 
 // traigo f getUsers como props desde Adminuser
-const UserForm = ({ getUsers, formValue, userId  }) => {
+const UserForm = ({ getUsers, formValue, userId,setUserId  }) => {
 	// handleSubmit to hold the input value *- setValue =>setear los valores al formulario
 	const { register, handleSubmit, setValue } = useForm();
 	const navigate = useNavigate();
@@ -42,9 +42,8 @@ const UserForm = ({ getUsers, formValue, userId  }) => {
 					text: `El usuario ${response.data.user.name} fue editado correctamente`,
 				});
 
-				// if (setFormValueFn) {
-				// 	setFormValueFn(user);
-				// }
+				getUsers();
+				setUserId(null);
 				return; // para que mi codigo que sigue luego del if no se ejecute.
 			}
 

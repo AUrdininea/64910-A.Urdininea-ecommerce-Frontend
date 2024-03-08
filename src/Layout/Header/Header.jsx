@@ -1,4 +1,4 @@
-import { useNavigate, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import logo from '../../assets/images/logos/GUITAR.png'
 import carrito from "../../assets/images/user-menu/carrito4.png" 
 import usuario from "../../assets/images/user-menu/usuario2.png"
@@ -8,17 +8,14 @@ import { useUser } from "@/context/UserContext";
 
 
 export default function Header() {
-    const navigate=useNavigate();
+    // const navigate=useNavigate();
     const { admin } = useUser();
+    const { user, logout } = useUser();
     console.log(admin)
-    const isAdmin= admin;
+    const isAdmin= user ? user.role === "ADMIN_ROLE" : false;
     const currentUser=JSON.parse(localStorage.getItem('currentUser'));
     
-   function logout(){
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('token');
-        navigate('/')
-    }
+
  
  
     return (

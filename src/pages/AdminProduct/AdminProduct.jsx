@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import defaultPicture from "../../assets/images/avatar/usuario.jpg";
 import formatDate from "../../utils/formatDate";
-
+const TOKEN = localStorage.getItem("token");
 
 
 const URL = import.meta.env.VITE_SERVER_URL;
@@ -19,12 +19,11 @@ export default function AdminProduct() {
 	const [totalButtons, setTotalButtons] = useState([]);
 	const [limit, setLimit] = useState(10);
 	const navigate = useNavigate();
-	const TOKEN = localStorage.getItem("token");
+
 
 	// -Enviar datos(data) al back con body de la request POST y llamar al endpoint POST /products
 	async function submitedData(data) {
 		try {
-			console.log(data)
 			const formData = new FormData();
 			for (const key of Object.keys(data)) {
 				// -for Itero propiedades, que me va a devolver un array con los valores(propiedades) de mi objeto
@@ -48,7 +47,7 @@ export default function AdminProduct() {
 				Swal.fire({
 					icon: "success",
 					title: "Producto editado correctamente ",
-					text: `El producto ${response.data.product?.product} fue editado correctamente`,
+					text: `El producto ${response.data.product?.producto} fue editado correctamente`,
 				});
 				getProducts();
 				setProductId(null);
@@ -66,6 +65,7 @@ export default function AdminProduct() {
 				text: `El producto ${response.data.product.producto} fue creado correctamente`,
 			});
 			getProducts();
+			
 		} catch (error) {
 			console.log(error);
 			Swal.fire({
@@ -91,7 +91,6 @@ export default function AdminProduct() {
 				`${URL}/products?page=${page}&limit=${limit}`,
 			);
 			const products = response.data.products;
-			console.log(products)
 			const total = response.data.total; // 6
 			// redondeo hacia arriba
 			const buttonsQuantity = Math.ceil(total / limit); // 6/2=3 botones
@@ -177,7 +176,6 @@ export default function AdminProduct() {
 
 			// setear un estado que maneje las categorias RECIBIDAS DE BD
 			setCategories(categoriesDB);
-			console.log(categories)
 		} catch (error) {
 			console.log("No se pudieron obtener las categorias");
 		}
@@ -225,7 +223,7 @@ export default function AdminProduct() {
 								<label htmlFor="producto">Producto</label>
 								<input
 									type="text"
-									{...register("title")}
+									{...register("producto")}
 									id="producto"
 									minLength="5"
 									maxLength="60"
@@ -236,7 +234,7 @@ export default function AdminProduct() {
 							<div className="input-wrapper">
 								<label htmlFor="descripcion">Descripcion</label>
 								<textarea
-									{...register("description")}
+									{...register("descripcion")}
 									id="descripcion"
 									required
 								></textarea>
@@ -245,7 +243,7 @@ export default function AdminProduct() {
 								<label htmlFor="precio">Precio</label>
 								<input
 									type="number"
-									{...register("price")}
+									{...register("precio")}
 									id="precio"
 									required
 								/>
@@ -254,7 +252,7 @@ export default function AdminProduct() {
 								<label htmlFor="fecha">Fecha</label>
 								<input
 									type="date"
-									{ ...register("createdAt") }
+									{ ...register("fecha") }
 									id="fecha"
 									min=" 1930-01-01"
 								/>
@@ -335,9 +333,9 @@ export default function AdminProduct() {
 													}
 												/>
 											</td>
-											<td> {product.title}</td>
-											<td> {product.description} </td>
-											<td> {product.price}</td>
+											<td> {product.producto}</td>
+											<td> {product.descripcion} </td>
+											<td> {product.precio}</td>
 											<td> {formatDate(product.fecha)}</td>
 											{
 												<td>

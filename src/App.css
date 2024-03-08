@@ -832,6 +832,7 @@ button:hover {
 	background-color: rgba(8, 8, 8, 0.167);
 	margin-inline: auto;
 	color: white;
+	box-shadow: 0 0 30px #666;
 }
 .activo {
 	margin-left: 2rem;
@@ -881,6 +882,7 @@ input {
 	width: 900px;
 	border-collapse: collapse;
 	overflow-y: scroll;
+	box-shadow: 0 0 30px #666;
 }
 @media screen and (width<1350px) {
 	.user-table {

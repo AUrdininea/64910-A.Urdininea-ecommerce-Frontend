@@ -1,7 +1,7 @@
 import UserTableRow from "../../components/UserTableRow/UserTableRow";
 
 // users=lo recibo como una props
-export default function UserTable({ users, deleteUser, setFormValueFn }) {
+export default function UserTable({ users, deleteUser, setFormValueFn,userId ,setUserId}) {
 
     // deleteUser('un ID desde el componente hijo UserTable');
 
@@ -32,7 +32,11 @@ export default function UserTable({ users, deleteUser, setFormValueFn }) {
 						// paso Props y su valor es la funcion 
 								usr={usr} 
 								deleteUser={deleteUser} 
-								setFormValueFn={setFormValueFn}  />
+								setFormValueFn={setFormValueFn}
+								userId={userId} 
+								setUserId={setUserId} 
+								
+								/>
 							))
 						}
 					</tbody>
