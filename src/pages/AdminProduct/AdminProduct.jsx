@@ -25,14 +25,16 @@ export default function AdminProduct() {
 	async function submitedData(data) {
 		try {
 			const formData = new FormData();
-			for (const key of Object.keys(data)) {
-				// -for Itero propiedades, que me va a devolver un array con los valores(propiedades) de mi objeto
-				if (key === "image") {
-					formData.append(key,data.image[0]); // para que me mi lista de archivos tome el indice 0
-					continue;
-				}
-				formData.append(key,data[key]);
-			}
+            formData.append("producto", data.producto)
+            formData.append("descripcion", data.descripcion)
+            formData.append("category", data.category)
+            formData.append("precio", data.precio)
+        
+
+            if (data.image && data.image.length > 0 && data.image[0] instanceof File) {
+                formData.append("image", data.image[0]);
+            }
+
 
 			
 			// -PUT: EDITAR (actualizar )producto
@@ -190,7 +192,7 @@ export default function AdminProduct() {
 		setValue("precio", product.precio);
 		setValue("image", product.image || ""); // si es null or undefined que se setee un string vacio
 		setValue("active", product.active);
-		setValue("category", product.category || "");
+		setValue("category", product.category._id || "");
 	}
 
 	// -Buscador (Peticion) a mi servidor para buscar productos

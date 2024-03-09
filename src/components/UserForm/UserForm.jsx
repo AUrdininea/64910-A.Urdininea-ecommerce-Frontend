@@ -28,7 +28,8 @@ const UserForm = ({ getUsers, formValue, userId,setUserId  }) => {
 			formData.append("location", data.location)
 			formData.append("image", data.image[0])
 
-
+	
+			
 			// -PUT: EDITAR usuario
 			if (userId) {
 				if (!TOKEN) return; // si NO HAY TOKEN cancelo
